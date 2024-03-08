@@ -1,3 +1,4 @@
+import { Edad } from "./calcular-edad";
 
 
 export class UpdateJugadorDto {
@@ -13,6 +14,8 @@ export class UpdateJugadorDto {
         public readonly email: string,
         public readonly talla_camiseta: string,
         public readonly fecha_nacimiento: string,
+        public readonly estado: boolean,
+        public readonly tipo: string,
         public readonly edad?: number,
     ) { }
 
@@ -29,31 +32,16 @@ export class UpdateJugadorDto {
         if (this.email) returnObj.email = this.email;
         if (this.talla_camiseta) returnObj.talla_camiseta = this.talla_camiseta;
         if (this.fecha_nacimiento) returnObj.fecha_nacimiento = this.fecha_nacimiento;
+        if (this.fecha_nacimiento) returnObj.estado = this.estado;
+        if (this.fecha_nacimiento) returnObj.tipo = this.tipo;
 
         return returnObj;
     }
 
-    static calcularEdad(fecha_nacimiento: string) {
-
-        let hoy = new Date();
-        let fechaNacimiento = new Date(fecha_nacimiento);
-        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-        let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth();
-        if (
-            diferenciaMeses < 0 ||
-            (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
-        ) {
-            edad--
-        }
-        return edad;
-
-    }
-
-
     static create(props: { [key: string]: any }): [string?, UpdateJugadorDto?] {
 
         const { id,nombres, apellidos, nombre_corto, cedula,
-            RH, telefono, email, talla_camiseta, fecha_nacimiento, } = props;
+            RH, telefono, email, talla_camiseta, fecha_nacimiento,estado,tipo } = props;
         
             let newfechanacimiento = new Date();
 
@@ -66,13 +54,13 @@ export class UpdateJugadorDto {
             }
         }
 
-        props.edad = this.calcularEdad(fecha_nacimiento);
+        props.edad = Edad.calcular(fecha_nacimiento);
 
         const { edad } = props;
 
         return [undefined,
             new UpdateJugadorDto(id,nombres, apellidos, nombre_corto, cedula, RH,
-                telefono, email, talla_camiseta, fecha_nacimiento,
+                telefono, email, talla_camiseta, fecha_nacimiento,estado,tipo,
                 edad)];
     }
 

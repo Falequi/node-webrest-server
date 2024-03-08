@@ -15,22 +15,24 @@ export class JugadorEntity {
       public correo:            string,
       public talla_camiseta:    string,
       public fecha_nacimiento:  Date,
-      public edad:              number,
-      public posiciones:        string[],
-      public estado:            string,
+      public estado:            Boolean,
+      public tipo:              string,
+      public edad?:             number,
     ) {}
     
     public static fromObject( object: {[key: string]: any} ): JugadorEntity {
       
+      
       const {   id, nombres, apellidos, nombre_corto, cedula, RH, telefono,
-                correo, talla_camiseta,fecha_nacimiento, edad, posiciones,estado
-            } = object;
+        correo, talla_camiseta,fecha_nacimiento, estado,tipo,edad,
+      } = object;
+
 
       if ( !id ) throw 'Id is required';
         
       return new JugadorEntity(
         id, nombres, apellidos, nombre_corto, cedula, RH, telefono,
-        correo, talla_camiseta,fecha_nacimiento, edad, posiciones,estado
+        correo, talla_camiseta,fecha_nacimiento, estado,tipo,edad, 
       );
     }
   
